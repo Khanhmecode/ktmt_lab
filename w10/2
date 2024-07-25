@@ -1,0 +1,87 @@
+.eqv SEVENSEG_LEFT    0xFFFF0011 # Dia chi cua den led 7 doan trai.  
+#     Bit 0 = doan a; 
+#     Bit 1 = doan b; ... 
+#     Bit 7 = dau .
+.eqv SEVENSEG_RIGHT   0xFFFF0010 # Dia chi cua den led 7 doan phai
+.data
+result: .space 32 # ?? l?u tr? k?t qu?
+.text
+# Nhap 1 so nguyen tu ban phim
+in: li $v0,5
+      syscall
+      addi $a1, $v0,0
+      addi $k0, $0, 10
+      slt $a0,$a1,$k0
+      beq $a0, 1, in # neu so nhap vao < 10 thi nhap lai
+ 
+main: 
+         div $a1,$k0
+         mfhi $t1
+         mflo $a1
+         jal chuyen
+         addi $t2,$t1,0 
+         nop
+         div $a1,$k0
+         mfhi $t1
+         jal chuyen
+         nop
+         add    $a0, $t1 ,$0            # set value for segments 
+         jal   SHOW_7SEG_LEFT          # show 
+         nop 
+         add   $a0, $t2  ,$0            # set value for segments 
+         jal   SHOW_7SEG_RIGHT         # show   
+         nop
+exit:     li    $v0, 10 
+         syscall
+endmain: 
+ 
+#---------------------------------------------------------------
+# Function  SHOW_7SEG_LEFT : turn on/off the 7seg
+# param[in]  $a0   value to shown       
+# remark     $t0 changed
+#---------------------------------------------------------------
+SHOW_7SEG_LEFT:  li   $t0, SEVENSEG_LEFT # assign port's address 
+                sb   $a0, 0($t0)        # assign new value   
+                nop 
+                jr   $ra 
+                nop 
+                
+#---------------------------------------------------------------
+# Function  SHOW_7SEG_RIGHT : turn on/off the 7seg
+# param[in]  $a0   value to shown       
+# remark     $t0 changed
+#---------------------------------------------------------------
+SHOW_7SEG_RIGHT: li   $t0,  SEVENSEG_RIGHT # assign port's address 
+                sb   $a0, 0($t0)         # assign new value 
+                nop 
+                jr   $ra   
+                nop
+chuyen: bne $t1,0,c1
+         addi $t1,$0,0x3f
+         jr $ra
+c1:       bne $t1,1,c2
+         addi $t1,$0,0x06
+         jr $ra
+c2:       bne $t1,2,c3
+         addi $t1,$0,0x5b 
+         jr $ra
+c3:       bne $t1,3,c4
+         addi $t1,$0,0x4f
+         jr $ra
+c4:       bne $t1,4,c5
+         addi $t1,$0,0x66
+         jr $ra
+c5:       bne $t1,5,c6
+         addi $t1,$0,0x6d                 
+         jr $ra
+c6:       bne $t1,6,c7 
+         addi $t1,$0,0x9d
+         jr $ra
+c7:       bne $t1,7,c8
+         addi $t1,$0,0x07
+         jr $ra
+c8:       bne  $t1,8,c9
+         addi $t1,$0,0xff
+         jr $ra
+c9:       addi $t1,$0,0x6f
+         jr $ra

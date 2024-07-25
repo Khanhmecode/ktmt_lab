@@ -1,0 +1,29 @@
+.data
+input: .space 21 # allocate space for input string
+msg: .asciiz "Enter a string: "
+revmsg: .asciiz "\nReverse string: "
+newline: .asciiz "\n"
+
+.text
+main:
+    # print message to prompt user for input
+    li $v0, 4
+    la $a0, msg
+    syscall
+    
+    # read input string
+    li $v0, 8
+    la $a0, input
+    li $a1, 21
+    syscall
+    
+    # find length of input string
+    move $s0, $zero # initialize length to 0
+loop:
+    lb $t0, input($s0) # load byte from input string
+    beqz $t0, endloop # if byte is null, end loop
+    addi $s0, $s0, 1 # increment length
+    bgt $s0, 20, endloop # if length exceeds 20, end loop
+    j loop
+endloop:
+    addi $s0, $s0, -100

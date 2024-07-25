@@ -1,0 +1,13 @@
+#Laboratory Exercise 4, Home Assignment 1
+.text
+start:
+li $s1,0xB57E8380
+li $s2,0xB57E8380
+li $t0,0 #No Overflow is default status
+addu $s3,$s1,$s2 # s3 = s1 + s2
+xor $t1,$s1,$s2 #Test if $s1 and $s2 have the same sign
+bltz $t1,EXIT #If not, exit
+xor $t2,$s3,$s1  
+bgez $t2,EXIT
+li $t0,1 #overflow 
+EXIT:

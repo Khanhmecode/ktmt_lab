@@ -1,0 +1,10 @@
+addi $s0, $0, 1000 # n = 1000
+addi $s1, $0, 0    # s = 0
+addi $s2, $0, 1    # i = 1
+FOR:
+slt $t0, $s2, $s0  # $t0 = i < n?
+beq $t0, $0, END   # if !(i < n) goto END
+add $s1, $s1, $s2  # s = s + i
+addi $s2, $s2, 1   # i = i + 1
+j FOR
+END:

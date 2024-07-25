@@ -1,0 +1,54 @@
+#Laboratory 2, Assignment 2
+.data
+Msg1: .asciiz "The sum of (" 
+MSg1: .asciiz ")"
+Msg2: .asciiz " and ("
+Msg3: .asciiz " is ("
+.text
+    	# initialize registers
+	li $s0, 1		# s0 = 1
+	li $s1, 2		# s1 = 2
+	# add registers
+	add $s2, $s0, $s1	# s2 = s1 + s0
+	# print "The sum of "
+	li $v0, 4
+     	la $a0, Msg1
+    	syscall
+    	# print s0
+    	move $a0, $s0
+    	li $v0, 1
+    	syscall
+    	# print " ) "
+    	li $v0, 4
+    	la $a0, MSg1
+    	syscall
+	# print " and ( "
+	li $v0, 4		
+	la $a0, Msg2
+	syscall
+	# print s1
+    	move $a0, $s1
+     	li $v0, 1
+    	syscall
+        # print " ) "
+    	li $v0, 4
+    	la $a0, MSg1
+    	syscall
+    	# print " is "
+    	li $v0, 4
+    	la $a0, Msg3
+    	syscall
+    	# print s2
+    	move $a0, $s2
+    	li $v0, 1
+    	syscall
+    	# print " ) "
+    	li $v0, 4
+    	la $a0, MSg1
+    	syscall
+
+	
+	
+	
+
+	

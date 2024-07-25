@@ -1,0 +1,13 @@
+.text
+   addi $s0,$0,3 
+   addi $s1,$0,2
+if:
+   slt $t0,$s1,$s0 #if j<i
+   bne $t0,$0,else
+   addi $s2,$s2,1 #x=x+1
+   addi $s4,$0,1 #z=1
+   j end
+else:
+   addi $s3,$s3,-1 #y=y-1
+   sll $s4,$s4,1 #z=z*2
+end:      

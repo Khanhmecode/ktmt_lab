@@ -1,0 +1,19 @@
+.data
+	A: .word 1,2,3,4,5
+.text
+	addi $s5, $zero, 0 # sum = 0 
+	addi $s1, $zero, 0 # i = 0
+	addi $s3 , $0, 5 # n  = 5
+	addi $s4 , $0, 1 # step = 1
+	la $s2, A
+loop: 	slt $t2, $s3, $s1 
+	beq $t2, $zero, endloop # t2 = 0 -> end
+	add $t1, $s1, $s1# t1 = 2*i
+	add $t1, $t1, $t1 # t1 = 4*i 
+	add $t1, $t1, $s2 # t1 = t1 + *(A+i)
+	lw $t0, 0($t1)# t0 = A[i]
+	beq $t0, $zero, endloop
+	add $s5, $s5, $t0 # sum = sum + A[i]
+	add $s1, $s1, $s4 # i = i + step
+	j loop
+endloop:

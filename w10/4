@@ -1,0 +1,41 @@
+.eqv MONITOR_SCREEN 0x10010000
+.eqv GREEN 0x0000FF00
+.eqv RED 0x00FF0000
+.text
+li $k0, MONITOR_SCREEN
+li $s0, 2
+li $t0, -1 # Khoi tao j
+Loop1: addi $t0, $t0, 1
+beq $t0, 8, Exit
+li $t1, -1 # Khoi tao i
+Loop2: addi $t1, $t1, 1
+beq $t1, 8, endLoop2
+div $t0, $s0
+mfhi $t2
+div $t1, $s0
+mfhi $t3
+bne $t2, 0, Next
+bne $t3, 0, red # Ve mau do o stt le
+j green # Ve mau xanh  o stt chan 
+Next:
+beq $t3, 0, red
+green:
+sll $s1, $t0, 3
+add $s1, $s1, $t1
+sll $s1, $s1, 2
+add $s2, $s1, $k0
+li $t4, GREEN
+sw $t4, 0($s2)
+j Loop2
+red:
+sll $s1, $t0, 3
+add $s1, $s1, $t1
+sll $s1, $s1, 2
+add $s2, $s1, $k0
+li $t4, RED
+sw $t4, 0($s2)
+j Loop2
+endLoop2:
+j Loop1
+Exit: li $v0, 10
+syscall

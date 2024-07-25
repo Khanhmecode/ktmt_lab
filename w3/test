@@ -1,0 +1,20 @@
+.text 
+   addi $s0,$0,0 #case 0
+   addi $s1,$0,1 #casae 1
+   addi $s2,$0,2  #case 2
+   addi $s3,$0,0 #test=1
+switch:
+   beq $s3,$s0,case_0
+   beq $s3,$s1,case_1
+   beq $s3,$s2,case_2  
+   j end 
+case_0:
+   addi $s4,$s4,1
+   j end   
+case_1:
+   addi $s4,$s4,-1
+   j end  
+case_2:
+   add $s5,$s5,$s6
+   j end 
+end: 

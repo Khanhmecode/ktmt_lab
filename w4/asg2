@@ -1,0 +1,3 @@
+.text
+li $s0, 0x0563 #load test value for these function
+andi $t1, $s0, 0xffffff00 #Extract the LSB of $s0

@@ -1,0 +1,37 @@
+.data
+array: .word 11, 20, -30, -4, 17
+num_elements: .word 5
+ 
+.text
+.globl main
+main:
+    la $a0, array
+    lw $a1, num_elements
+    li $t0, 0
+    li $t1, 0
+    li $t2, 0
+ 
+loop:
+    beq $t0, $a1, endLoop
+    lw $t3, 0($a0)
+    move $a2, $t3
+    bltz $a2, negate
+    j check
+ 
+negate:
+    negu $a2, $a2
+ 
+check:
+    slt $t4, $t1, $a2
+    beq $t4, $zero, updateIndex
+    move $t1, $a2
+    move $t2, $t3
+ 
+updateIndex:
+    addiu $a0, $a0, 4
+    addiu $t0, $t0, 1
+    j loop
+ 
+endLoop:
+    li $v0, 10
+    syscall
